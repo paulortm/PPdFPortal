@@ -22,4 +22,5 @@ target
  
 # Play
 logs
+conf/evolutions
 RUNNING_PID
