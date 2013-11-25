@@ -12,19 +12,29 @@ public class ModelsTest extends WithApplication {
 	}
 
 	@Test
-	public void createAndRetrieveUser() {
-		new User("Bob", "secret").save();
-		User bob = User.find.where().eq("id", 1).findUnique();
+	public void createAndRetrieveAdministrator() {
+		new Administrator("Bob", "secret", "999999999", "Rua 1").save();
+		User bob = Administrator.find.where().eq("id", 1).findUnique();
 		assertNotNull(bob);
 		assertEquals("Bob", bob.name);
 	}
-	
+
 	@Test
-    public void tryAuthenticateUser() {
-        new User("Bob", "secret").save();
-        
-        assertNotNull(User.authenticate(1, "secret"));
-        assertNull(User.authenticate(1, "badpassword"));
-        assertNull(User.authenticate(2, "secret"));
-    }
+	public void createAndRetrieveStudent() {
+		new Student("Bob", "secret", "999999999", "Rua 1", "Manuela",
+				"111111111").save();
+		User bob = Student.find.where().eq("id", 1).findUnique();
+		assertNotNull(bob);
+		assertEquals("Bob", bob.name);
+		assertEquals("Manuela", ((Student)bob).guardianName);
+	}
+
+	@Test
+	public void tryAuthenticateUser() {
+		new Administrator("Bob", "secret", "999999999", "Rua 1").save();
+
+		assertNotNull(User.authenticate(1, "secret"));
+		assertNull(User.authenticate(1, "badpassword"));
+		assertNull(User.authenticate(2, "secret"));
+	}
 }
