@@ -12,14 +12,14 @@ public class Student extends User {
 	public String guardianName;
 	public String guardianContact;
 
-	public Student(String name, String password, String contact,
+	public Student(String userId, String name, String password, String contact,
 			String address, String guardianName, String guardianContact) {
-		super(name, password, contact, address);
+		super(userId, name, password, contact, address);
 		this.guardianName = guardianName;
 		this.guardianContact = guardianContact;
 	}
 
-	public static Finder<Integer, Student> find = new Finder<Integer, Student>(
-			Integer.class, Student.class);
+	public static Finder<String, Student> find = new Finder<String, Student>(
+			String.class, Student.class);
 
 }

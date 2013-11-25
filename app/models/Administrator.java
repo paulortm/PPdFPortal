@@ -9,12 +9,12 @@ import com.avaje.ebean.*;
 @Entity
 public class Administrator extends User {
 
-	public Administrator(String name, String password, String contact,
+	public Administrator(String userId, String name, String password, String contact,
 			String address) {
-		super(name, password, contact, address);
+		super(userId, name, password, contact, address);
 	}
 
-	public static Finder<Integer, Administrator> find = new Finder<Integer, Administrator>(
-			Integer.class, Administrator.class);
+	public static Finder<String, Administrator> find = new Finder<String, Administrator>(
+			String.class, Administrator.class);
 
 }

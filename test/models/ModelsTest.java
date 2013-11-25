@@ -10,20 +10,30 @@ public class ModelsTest extends WithApplication {
 	public void setUp() {
 		start(fakeApplication(inMemoryDatabase()));
 	}
+	
+	@Test
+	public void testPPdFPortal() {
+		PPdFPortal portal = PPdFPortal.find.byId(1);
+		assertNotNull(portal);
+	}
 
 	@Test
 	public void createAndRetrieveAdministrator() {
-		new Administrator("Bob", "secret", "999999999", "Rua 1").save();
-		User bob = Administrator.find.where().eq("id", 1).findUnique();
+		PPdFPortal portal = PPdFPortal.find.byId(1);
+		
+		portal.createAdministrator("Bob", "secret", "999999999", "Rua 1");
+		User bob = portal.getUser("adm1");
 		assertNotNull(bob);
 		assertEquals("Bob", bob.name);
 	}
 
 	@Test
 	public void createAndRetrieveStudent() {
-		new Student("Bob", "secret", "999999999", "Rua 1", "Manuela",
-				"111111111").save();
-		User bob = Student.find.where().eq("id", 1).findUnique();
+		PPdFPortal portal = PPdFPortal.find.byId(1);
+		
+		portal.createStudent("Bob", "secret", "999999999", "Rua 1", "Manuela",
+				"111111111");
+		User bob = portal.getUser("cat1");
 		assertNotNull(bob);
 		assertEquals("Bob", bob.name);
 		assertEquals("Manuela", ((Student)bob).guardianName);
@@ -31,10 +41,12 @@ public class ModelsTest extends WithApplication {
 
 	@Test
 	public void tryAuthenticateUser() {
-		new Administrator("Bob", "secret", "999999999", "Rua 1").save();
+		PPdFPortal portal = PPdFPortal.find.byId(1);
+		
+		portal.createAdministrator("Bob", "secret", "999999999", "Rua 1");
 
-		assertNotNull(User.authenticate(1, "secret"));
-		assertNull(User.authenticate(1, "badpassword"));
-		assertNull(User.authenticate(2, "secret"));
+		assertNotNull(portal.authenticate("adm1", "secret"));
+		assertNull(portal.authenticate("adm1", "badpassword"));
+		assertNull(portal.authenticate("adm2", "secret"));
 	}
 }
