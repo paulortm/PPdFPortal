@@ -33,7 +33,7 @@ public class PPdFPortal extends Model {
 		this.update();
 		return studentId;
 	}
-	
+
 	public User authenticate(String userId, String password) {
 		User userAdmin = Administrator.find.where().eq("userId", userId)
 				.eq("password", password).findUnique();
@@ -45,12 +45,14 @@ public class PPdFPortal extends Model {
 		else
 			return userStudent;
 	}
-	
+
 	public User getUser(String userId) {
 		String userType = userId.substring(0, 3);
-		
-		if(userType.equals("adm")) return Administrator.find.where().eq("userId", userId).findUnique();
-		else return Student.find.where().eq("userId", userId).findUnique();
+
+		if (userType.equals("adm"))
+			return Administrator.find.where().eq("userId", userId).findUnique();
+		else
+			return Student.find.where().eq("userId", userId).findUnique();
 	}
 
 	public void createAdministrator(String name, String password,

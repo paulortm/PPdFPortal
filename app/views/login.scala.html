@@ -1,0 +1,23 @@
+@(form: Form[Application.Login])
+
+@main("PPdFPortal") {
+
+    @helper.form(routes.Application.authenticate) {
+		<h1>Sign in</h1>
+		@if(form.hasGlobalErrors) {
+		    <p class="error">
+		        @form.globalError.message
+		    </p>
+		}
+		<p>
+			<input type="text" name="userId" placeholder="Identificador">
+		</p>
+		<p>
+			<input type="password" name="password" placeholder="Password">
+		</p>
+		<p>
+			<button type="submit">Login</button>
+		</p>
+	}
+
+}

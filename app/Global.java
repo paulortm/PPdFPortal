@@ -6,10 +6,10 @@ import models.*;
 import java.util.*;
 
 public class Global extends GlobalSettings {
-	
-    @Override
-    public void onStart(Application app) {
-    	new PPdFPortal(1, 1, 1).save();
-    }
-    
+
+	@Override
+	public void onStart(Application app) {
+		new PPdFPortal(1, 1, 1).save();
+		new Administrator("adm0", "root", "rootroot", "0", "Rua root").save();
+	}
 }
