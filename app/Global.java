@@ -9,7 +9,10 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public void onStart(Application app) {
-		new PPdFPortal(1, 1, 1).save();
-		new Administrator("adm0", "root", "rootroot", "0", "Rua root").save();
+		if (PPdFPortal.find.byId(1) == null) {
+			new PPdFPortal(1, 1, 1).save();
+			new Administrator("adm0", "root", "rootroot", "0", "Rua root")
+					.save();
+		}
 	}
 }

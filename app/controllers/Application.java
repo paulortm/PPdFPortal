@@ -25,12 +25,19 @@ public class Application extends Controller {
 		}
 	}
 
+	@Security.Authenticated(Secured.class)
 	public static Result index() {
 		return ok(index.render("PPdFPortal"));
 	}
 
 	public static Result login() {
 		return ok(login.render(form(Login.class)));
+	}
+
+	public static Result logout() {
+		session().clear();
+		flash("success", "Logout efectuado");
+		return redirect(routes.Application.login());
 	}
 
 	public static Result authenticate() {

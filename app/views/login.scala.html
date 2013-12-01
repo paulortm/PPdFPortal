@@ -2,6 +2,11 @@
 
 @main("PPdFPortal") {
 
+	@if(flash.contains("success")) {
+    	<p class="success">
+        	@flash.get("success")
+    	</p>
+	}
     @helper.form(routes.Application.authenticate) {
 		<h1>Sign in</h1>
 		@if(form.hasGlobalErrors) {
