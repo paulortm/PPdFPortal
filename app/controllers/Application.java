@@ -9,6 +9,8 @@ import static play.data.Form.*;
 import views.html.*;
 
 public class Application extends Controller {
+	
+	public static PPdFPortal portal = PPdFPortal.find.byId(1);
 
 	public static class Login {
 
@@ -32,7 +34,6 @@ public class Application extends Controller {
 	}
 
 	public static Result authenticate() {
-		PPdFPortal portal = PPdFPortal.find.byId(1);
 		Form<Login> loginForm = form(Login.class).bindFromRequest();
 		if (portal.authenticate(loginForm.get().userId, loginForm.get().password) == null) {
 			flash("failedLogin", "Utilizador ou password errados");
