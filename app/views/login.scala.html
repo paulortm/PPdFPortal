@@ -1,28 +1,28 @@
-@(form: Form[Application.Login])
 
 @main("PPdFPortal") {
-
-	@if(flash.contains("success")) {
-    	<p class="success">
-        	@flash.get("success")
-    	</p>
-	}
-    @helper.form(routes.Application.authenticate) {
-		<h1>Sign in</h1>
-		@if(form.hasGlobalErrors) {
-		    <p class="error">
-		        @form.globalError.message
-		    </p>
-		}
-		<p>
-			<input type="text" name="userId" placeholder="Identificador">
-		</p>
-		<p>
-			<input type="password" name="password" placeholder="Password">
-		</p>
-		<p>
-			<button type="submit">Login</button>
-		</p>
-	}
-
+	<div class="container">
+    	<form class="form-signin" role="form" action="@routes.Application.authenticate" method="post">
+    		<table>
+				<tr><h2 class="form-signin-heading">Login</h2></tr>
+				<tr><input type="text" class="form-control" name="userId" placeholder="Identificador" required autofocus></tr>
+				<tr><input type="password" class="form-control" name="password" placeholder="Password" required></tr>
+				<tr>
+				@if(flash.contains("success")) {
+    				<p class="text-info">
+        				* @flash.get("success")
+    				</p>
+				} else {
+					@if(flash.contains("failedLogin")) {
+    					<p class="text-danger">
+        					* @flash.get("failedLogin")
+    					</p>
+					} else {
+						<p>&nbsp</p>
+					}
+				}
+				</tr>
+				<tr><button class="btn btn-lg btn-primary btn-block" type="submit">Login</button></tr>
+    		</table>
+		</form>
+	</div>
 }
