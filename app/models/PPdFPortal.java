@@ -3,7 +3,6 @@ package models;
 import javax.persistence.*;
 import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
-
 import com.avaje.ebean.*;
 
 @Entity
@@ -13,11 +12,16 @@ public class PPdFPortal extends Model {
 	public Integer id;
 	public Integer nextAdminId;
 	public Integer nextStudentId;
+	public Integer nextYear;
+	public Year currentYear;
 
-	public PPdFPortal(Integer id, Integer nextAdminId, Integer nextStudentId) {
+	public PPdFPortal(Integer id, Integer nextAdminId, Integer nextStudentId,
+			Integer nextYear, Year currentYear) {
 		this.id = id;
 		this.nextAdminId = nextAdminId;
 		this.nextStudentId = nextStudentId;
+		this.nextYear = nextYear;
+		this.currentYear = currentYear;
 	}
 
 	private String generateAdminId() {
@@ -32,6 +36,12 @@ public class PPdFPortal extends Model {
 		this.nextStudentId++;
 		this.update();
 		return studentId;
+	}
+	
+	private String generateYearId() {
+		String yearId = this.nextYear + "/" + this.nextYear++;
+		this.update();
+		return yearId;
 	}
 
 	public User authenticate(String userId, String password) {
