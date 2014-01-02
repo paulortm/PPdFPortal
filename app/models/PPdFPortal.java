@@ -4,6 +4,7 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
 import com.avaje.ebean.*;
+import java.util.List;
 
 @Entity
 public class PPdFPortal extends Model {
@@ -13,6 +14,7 @@ public class PPdFPortal extends Model {
 	public Integer nextAdminId;
 	public Integer nextStudentId;
 	public Integer nextYear;
+	@OneToOne
 	public Year currentYear;
 
 	public PPdFPortal(Integer id, Integer nextAdminId, Integer nextStudentId,
@@ -63,6 +65,19 @@ public class PPdFPortal extends Model {
 			return Administrator.find.where().eq("userId", userId).findUnique();
 		else
 			return Student.find.where().eq("userId", userId).findUnique();
+	}
+	
+	public List<Volume> getCurrentVolumes() {
+		return this.currentYear.volumes;
+	}
+	
+	public boolean isAdmin(String userId) {
+		String userType = userId.substring(0, 3);
+
+		if (userType.equals("adm"))
+			return true;
+		else
+			return false;
 	}
 
 	public void createAdministrator(String name, String password,

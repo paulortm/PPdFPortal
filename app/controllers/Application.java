@@ -17,10 +17,25 @@ public class Application extends Controller {
 		public String userId;
 		public String password;
 	}
+	
+	public static class VolumeChoice {
+		
+		public String volume;
+	}
 
 	@Security.Authenticated(Secured.class)
 	public static Result index() {
-		return ok(index.render("PPdFPortal"));
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(indexAdm.render(portal.getUser(loggedUser), portal.getCurrentVolumes()));
+		} else {
+			return ok(indexCat.render("PPdFPortal"));
+		}
+	}
+	
+	@Security.Authenticated(Secured.class)
+	public static Result showVolume() {
+		return ok(indexCat.render("PPdFPortal"));
 	}
 
 	public static Result login() {

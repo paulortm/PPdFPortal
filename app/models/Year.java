@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -13,14 +14,13 @@ public class Year extends Model {
 
 	@Id
 	public String id;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "year")
-	public List<Volume> volumes;
+	@OneToMany(mappedBy = "year")
+	public List<Volume> volumes = new ArrayList<Volume>();
 	public boolean isCurrent;
 
-	public Year(String id, List<Volume> volumes, boolean isCurrent) {
+	public Year(String id, boolean isCurrent) {
 		super();
 		this.id = id;
-		this.volumes = volumes;
 		this.isCurrent = isCurrent;
 	}
 

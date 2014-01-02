@@ -1,0 +1,20 @@
+@(loggedUser: models.User, volumes: List[models.Volume])
+
+@main("PPdFPortal") {
+	<div class="container">
+    	<ol class="breadcrumb">
+			<li>Administrador (@loggedUser.name)</li>
+		</ol>
+
+		<form role="form" action="@routes.Application.showVolume" method="post">
+			<ul class="list-group col-md-8 col-md-offset-4">
+				@for(i <- 0 to volumes.size - 1) {
+					<li class="list-group-item">
+						<button class="btn btn-default btn-block" name="volume" type="submit" value="@volumes.get(i).id">Volume @volumes.get(i).degree</button>
+					</li>
+				}
+			</ul>
+		</form>
+    </div>
+
+}
