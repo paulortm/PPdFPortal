@@ -1,0 +1,44 @@
+@(loggedUser: models.User, student: models.Student)
+
+@main("PPdFPortal") {
+	<div class="container">
+    	<div class="breadcrumb">
+    		<div class="row">
+				<div class="col-md-2">Administrador (@loggedUser.name)</div>
+				<div class="col-md-1 col-md-offset-9"><a href="@routes.Application.logout"><button type="button" class="btn btn-primary">Logout</button></a></div>
+    		</div>
+		</div>
+		
+		<div class="btn-group">
+			<a href="@routes.Application.index"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-home"></span></button></a>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading"><strong>Identificador do catequisando: </strong>@student.userId</div>
+			<div class="panel-body">
+				<p><strong>Nome: </strong>@student.name</p><p>
+				<p><strong>Morada: </strong>@student.address</p><p>
+				<p><strong>Contacto: </strong>@student.contact</p><p>
+				<p><strong>Data de nascimento: </strong>@student.birthDate</p><p>
+				<p><strong>Nome do encarregado de educação: </strong>@student.guardianName</p><p>
+				<p><strong>Contacto do encarregado de educação: </strong>@student.guardianContact</p><p>
+				<p><strong>Batismo:</strong></p>
+				@if(student.baptismDate) {
+					<p><strong>Data: </strong>@student.baptismDate</p>
+					<p><strong>Paróquia: </strong>@student.baptismParish</p>
+				} else {
+					<p>Ainda não fez</p>
+				}
+				<p><p><strong>Primeira Comunhão:</strong></p>
+				@if(student.firstCommunionDate) {
+					<p><strong>Data: </strong>@student.firstCommunionDate</p>
+					<p><strong>Paróquia: </strong>@student.firstCommunionParish</p>
+				} else {
+					<p>Ainda não fez</p>
+				}
+				<p><p><strong>Último volume concluído: </strong>@student.volumeDegree</p><p>
+			</div>
+		</div>
+    </div>
+
+}

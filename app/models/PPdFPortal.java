@@ -4,6 +4,8 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
 import com.avaje.ebean.*;
+
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -39,9 +41,9 @@ public class PPdFPortal extends Model {
 		this.update();
 		return studentId;
 	}
-	
+
 	private String generateYearId() {
-		String yearId = this.nextYear + "/" + this.nextYear++;
+		String yearId = this.nextYear + "/" + ++this.nextYear;
 		this.update();
 		return yearId;
 	}
@@ -66,11 +68,24 @@ public class PPdFPortal extends Model {
 		else
 			return Student.find.where().eq("userId", userId).findUnique();
 	}
-	
+
 	public List<Volume> getCurrentVolumes() {
 		return this.currentYear.volumes;
 	}
-	
+
+	public List<Student> getNotEnrolledStudents() {
+		List<Student> students = Student.find.all();
+		List<Student> notEnrolled = new LinkedList<Student>();
+
+		for (Student s : students) {
+			if (s.isActive && s.currentVolume == null) {
+				notEnrolled.add(s);
+			}
+		}
+
+		return notEnrolled;
+	}
+
 	public boolean isAdmin(String userId) {
 		String userType = userId.substring(0, 3);
 
@@ -87,9 +102,14 @@ public class PPdFPortal extends Model {
 	}
 
 	public void createStudent(String name, String password, String contact,
-			String address, String guardianName, String guardianContact) {
+			String address, String birthDate, String baptismDate,
+			String baptismParish, String firstCommunionDate,
+			String firstCommunionParish, Integer volumeDegree,
+			String guardianName, String guardianContact) {
 		new Student(this.generateStudentId(), name, password, contact, address,
-				guardianName, guardianContact).save();
+				birthDate, baptismDate, baptismParish, firstCommunionDate,
+				firstCommunionParish, volumeDegree, guardianName,
+				guardianContact).save();
 	}
 
 	public static Finder<Integer, PPdFPortal> find = new Finder<Integer, PPdFPortal>(

@@ -1,6 +1,6 @@
 package models;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -15,7 +15,7 @@ public class Year extends Model {
 	@Id
 	public String id;
 	@OneToMany(mappedBy = "year")
-	public List<Volume> volumes = new ArrayList<Volume>();
+	public List<Volume> volumes = new LinkedList<Volume>();
 	public boolean isCurrent;
 
 	public Year(String id, boolean isCurrent) {
