@@ -14,6 +14,8 @@ GET     /logout                     controllers.Application.logout()
 GET    /showVolume/:id              controllers.AdminApp.showVolume(id: Integer)
 GET    /showNotEnrolled             controllers.AdminApp.showNotEnrolled()
 GET    /showStudent/:userId         controllers.AdminApp.showStudent(userId: String)
+GET    /enroll/:userId/:volumeId    controllers.AdminApp.enroll(userId: String, volumeId: Integer)
+GET    /unenroll/:userId            controllers.AdminApp.unenroll(userId: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -2,6 +2,7 @@ package controllers;
 
 import models.PPdFPortal;
 import models.Student;
+import models.Volume;
 import play.*;
 import play.mvc.*;
 import play.data.*;
@@ -17,7 +18,8 @@ public class AdminApp extends Controller {
 	public static Result showVolume(Integer id) {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
-			return ok(indexCat.render("PPdFPortal"));
+			return ok(volumeStudents.render(portal.getUser(loggedUser),
+					portal.getVolume(id), portal.getStudents(id)));
 		} else {
 			return badRequest("Não tem permições");
 		}
@@ -39,7 +41,30 @@ public class AdminApp extends Controller {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
 			return ok(student.render(portal.getUser(loggedUser),
-					(Student)portal.getUser(userId)));
+					(Student) portal.getUser(userId),
+					portal.getCurrentVolumes()));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result enroll(String userId, Integer volumeId) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			portal.enrollStudent(userId, volumeId);
+			return redirect(routes.AdminApp.showStudent(userId));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result unenroll(String userId) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			portal.unenrollStudent(userId);
+			return redirect(routes.AdminApp.showStudent(userId));
 		} else {
 			return badRequest("Não tem permições");
 		}

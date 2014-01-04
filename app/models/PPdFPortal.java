@@ -72,6 +72,14 @@ public class PPdFPortal extends Model {
 	public List<Volume> getCurrentVolumes() {
 		return this.currentYear.volumes;
 	}
+	
+	public Volume getVolume(Integer id) {
+		return Volume.find.byId(id);
+	}
+	
+	public List<Student> getStudents(Integer volumeId) {
+		return Volume.find.byId(volumeId).students;
+	}
 
 	public List<Student> getNotEnrolledStudents() {
 		List<Student> students = Student.find.all();
@@ -84,6 +92,29 @@ public class PPdFPortal extends Model {
 		}
 
 		return notEnrolled;
+	}
+
+	public void enrollStudent(String userId, Integer volumeId) {
+		if (!this.isAdmin(userId)) {
+			Student student = (Student) this.getUser(userId);
+			Volume volume = Volume.find.byId(volumeId);
+			volume.students.add(student);
+			student.currentVolume = volume;
+			volume.update();
+			student.update();
+		}
+	}
+
+	public void unenrollStudent(String userId) {
+		if (!this.isAdmin(userId)
+				&& ((Student) this.getUser(userId)).currentVolume != null) {
+			Student student = (Student) this.getUser(userId);
+			Volume volume = student.currentVolume;
+			volume.students.remove(student);
+			student.currentVolume = null;
+			volume.update();
+			student.update();
+		}
 	}
 
 	public boolean isAdmin(String userId) {

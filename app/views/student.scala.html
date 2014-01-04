@@ -1,16 +1,36 @@
-@(loggedUser: models.User, student: models.Student)
+@(loggedUser: models.User, student: models.Student, volumes: List[models.Volume])
 
 @main("PPdFPortal") {
 	<div class="container">
     	<div class="breadcrumb">
     		<div class="row">
 				<div class="col-md-2">Administrador (@loggedUser.name)</div>
-				<div class="col-md-1 col-md-offset-9"><a href="@routes.Application.logout"><button type="button" class="btn btn-primary">Logout</button></a></div>
+				<div class="col-md-1 col-md-offset-9">
+					<a href="@routes.Application.logout" class="btn btn-primary" role="button">
+						Logout
+					</a>
+				</div>
     		</div>
 		</div>
 		
 		<div class="btn-group">
-			<a href="@routes.Application.index"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-home"></span></button></a>
+			<a href="@routes.Application.index" class="btn btn-default" role="button">
+				<span class="glyphicon glyphicon-home"></span>
+			</a>
+			@if(student.isActive) {
+				@if(student.currentVolume != null) {
+					<a href="@routes.AdminApp.unenroll(student.userId)" class="btn btn-danger" role="button">
+						Desinscrever
+					</a>
+				} else {
+					<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">Inscrever <span class="caret"></span></button>
+					<ul class="dropdown-menu" role="menu">
+				 		@for(i <- 0 to volumes.size - 1) {
+							<li><a href="@routes.AdminApp.enroll(student.userId, volumes.get(i).id)">Volume @volumes.get(i).degree</a></li>
+						}
+					</ul>
+				}
+			}
 		</div>
 
 		<div class="panel panel-primary">
@@ -37,6 +57,12 @@
 					<p>Ainda não fez</p>
 				}
 				<p><p><strong>Último volume concluído: </strong>@student.volumeDegree</p><p>
+				<p><strong>Inscrição no atual ano lectivo: </strong>
+					@if(student.currentVolume != null) {
+						Volume @student.currentVolume.degree</p><p>
+					} else {
+						Não inscrito</p><p>
+					}
 			</div>
 		</div>
     </div>

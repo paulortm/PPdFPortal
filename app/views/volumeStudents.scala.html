@@ -1,4 +1,4 @@
-@(loggedUser: models.User, currentYear: Year, volumes: List[models.Volume])
+@(loggedUser: models.User, volume: Volume, students: List[models.Student])
 
 @main("PPdFPortal") {
 	<div class="container">
@@ -17,18 +17,15 @@
 			<a href="@routes.Application.index" class="btn btn-default" role="button">
 				<span class="glyphicon glyphicon-home"></span>
 			</a>
-			<a href="@routes.AdminApp.showNotEnrolled" class="btn btn-default" role="button">
-				Mostrar catequisandos não inscritos
-			</a>
 		</div>
 
 		<div class="panel panel-primary">
-			<div class="panel-heading">Volumes do ano lectivo @currentYear.id</div>
+			<div class="panel-heading">Catequisandos inscritos no volume @volume.degree do ano lectivo @volume.year.id</div>
 			<div class="panel-body">
 				<div class="btn-group-vertical col-md-12">
-					@for(i <- 0 to volumes.size - 1) {
-						<form role="form" action="@routes.AdminApp.showVolume(volumes.get(i).id)" method="get">
-							<button class="btn btn-default btn-block" name="volume" type="submit" value="@volumes.get(i).id">Volume @volumes.get(i).degree</button>						
+					@for(i <- 0 to students.size - 1) {
+						<form role="form" action="@routes.AdminApp.showStudent(students.get(i).userId)" method="get">
+							<button class="btn btn-default btn-block" name="student" type="submit" value="@students.get(i).userId"><strong>Identificador: </strong>@students.get(i).userId <strong>Nome: </strong>@students.get(i).name</button>						
 						</form>
 					}
 				</div>

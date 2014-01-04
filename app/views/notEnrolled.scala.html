@@ -5,12 +5,18 @@
     	<div class="breadcrumb">
     		<div class="row">
 				<div class="col-md-2">Administrador (@loggedUser.name)</div>
-				<div class="col-md-1 col-md-offset-9"><a href="@routes.Application.logout"><button type="button" class="btn btn-primary">Logout</button></a></div>
+				<div class="col-md-1 col-md-offset-9">
+					<a href="@routes.Application.logout" class="btn btn-primary" role="button">
+						Logout
+					</a>
+				</div>
     		</div>
 		</div>
 		
 		<div class="btn-group">
-			<a href="@routes.Application.index"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-home"></span></button></a>
+			<a href="@routes.Application.index" class="btn btn-default" role="button">
+				<span class="glyphicon glyphicon-home"></span>
+			</a>
 		</div>
 
 		<div class="panel panel-primary">

@@ -31,12 +31,13 @@ public class ModelsTest extends WithApplication {
 	public void createAndRetrieveStudent() {
 		PPdFPortal portal = PPdFPortal.find.byId(1);
 
-		portal.createStudent("Bob", "secret", "999999999", "Rua 1", "Manuela",
-				"111111111");
+		portal.createStudent("José Esteves", "password", "212121212",
+				"Rua Coiso nº1", "3/11/2007", null, null, null, null, 0,
+				"Maria Esteves", "121212121");
 		User bob = portal.getUser("cat1");
 		assertNotNull(bob);
-		assertEquals("Bob", bob.name);
-		assertEquals("Manuela", ((Student) bob).guardianName);
+		assertEquals("José Esteves", bob.name);
+		assertEquals("Maria Esteves", ((Student) bob).guardianName);
 	}
 
 	@Test
