@@ -27,11 +27,11 @@ public class Student extends User {
 	public boolean isActive;
 
 	public Student(String userId, String name, String password, String contact,
-			String address, String birthDate, String baptismDate,
+			String email, String address, String birthDate, String baptismDate,
 			String baptismParish, String firstCommunionDate,
 			String firstCommunionParish, Integer volumeDegree,
 			String guardianName, String guardianContact) {
-		super(userId, name, password, contact, address);
+		super(userId, name, password, contact, email, address);
 		this.birthDate = birthDate;
 		this.baptismDate = baptismDate;
 		this.baptismParish = baptismParish;

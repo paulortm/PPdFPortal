@@ -21,7 +21,7 @@ public class ModelsTest extends WithApplication {
 	public void createAndRetrieveAdministrator() {
 		PPdFPortal portal = PPdFPortal.find.byId(1);
 
-		portal.createAdministrator("Bob", "secret", "999999999", "Rua 1");
+		portal.createAdministrator("Bob", "secret", "999999999", "q", "Rua 1");
 		User bob = portal.getUser("adm1");
 		assertNotNull(bob);
 		assertEquals("Bob", bob.name);
@@ -31,7 +31,7 @@ public class ModelsTest extends WithApplication {
 	public void createAndRetrieveStudent() {
 		PPdFPortal portal = PPdFPortal.find.byId(1);
 
-		portal.createStudent("José Esteves", "password", "212121212",
+		portal.createStudent("José Esteves", "password", "212121212", "q",
 				"Rua Coiso nº1", "3/11/2007", null, null, null, null, 0,
 				"Maria Esteves", "121212121");
 		User bob = portal.getUser("cat1");
@@ -44,7 +44,7 @@ public class ModelsTest extends WithApplication {
 	public void tryAuthenticateUser() {
 		PPdFPortal portal = PPdFPortal.find.byId(1);
 
-		portal.createAdministrator("Bob", "secret", "999999999", "Rua 1");
+		portal.createAdministrator("Bob", "secret", "999999999", "q", "Rua 1");
 
 		assertNotNull(portal.authenticate("adm1", "secret"));
 		assertNull(portal.authenticate("adm1", "badpassword"));

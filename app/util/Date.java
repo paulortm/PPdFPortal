@@ -3,7 +3,9 @@ package util;
 public class Date {
 
 	public static String makeString(Integer day, Integer month, Integer year) {
-		return day + "/" + month + "/" + year;
+		if (day != null && month != null && year != null)
+			return day + "/" + month + "/" + year;
+		else return null;
 	}
 
 	public static Integer getDay(String date) {

@@ -72,11 +72,11 @@ public class PPdFPortal extends Model {
 	public List<Volume> getCurrentVolumes() {
 		return this.currentYear.volumes;
 	}
-	
+
 	public Volume getVolume(Integer id) {
 		return Volume.find.byId(id);
 	}
-	
+
 	public List<Student> getStudents(Integer volumeId) {
 		return Volume.find.byId(volumeId).students;
 	}
@@ -126,21 +126,25 @@ public class PPdFPortal extends Model {
 			return false;
 	}
 
-	public void createAdministrator(String name, String password,
-			String contact, String address) {
+	public Administrator createAdministrator(String name, String password,
+			String contact, String email, String address) {
+		String userId = this.generateAdminId();
 		new Administrator(this.generateAdminId(), name, password, contact,
-				address).save();
+				email, address).save();
+		return (Administrator)this.getUser(userId);
 	}
 
-	public void createStudent(String name, String password, String contact,
-			String address, String birthDate, String baptismDate,
+	public Student createStudent(String name, String password, String contact,
+			String email, String address, String birthDate, String baptismDate,
 			String baptismParish, String firstCommunionDate,
 			String firstCommunionParish, Integer volumeDegree,
 			String guardianName, String guardianContact) {
-		new Student(this.generateStudentId(), name, password, contact, address,
-				birthDate, baptismDate, baptismParish, firstCommunionDate,
-				firstCommunionParish, volumeDegree, guardianName,
-				guardianContact).save();
+		String userId = this.generateStudentId();
+		new Student(userId, name, password, contact, email,
+				address, birthDate, baptismDate, baptismParish,
+				firstCommunionDate, firstCommunionParish, volumeDegree,
+				guardianName, guardianContact).save();
+		return (Student)this.getUser(userId);
 	}
 
 	public static Finder<Integer, PPdFPortal> find = new Finder<Integer, PPdFPortal>(
