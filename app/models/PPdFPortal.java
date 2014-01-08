@@ -126,15 +126,15 @@ public class PPdFPortal extends Model {
 			return false;
 	}
 
-	public Administrator createAdministrator(String name, String password,
+	public String createAdministrator(String name, String password,
 			String contact, String email, String address) {
 		String userId = this.generateAdminId();
 		new Administrator(this.generateAdminId(), name, password, contact,
 				email, address).save();
-		return (Administrator)this.getUser(userId);
+		return userId;
 	}
 
-	public Student createStudent(String name, String password, String contact,
+	public String createStudent(String name, String password, String contact,
 			String email, String address, String birthDate, String baptismDate,
 			String baptismParish, String firstCommunionDate,
 			String firstCommunionParish, Integer volumeDegree,
@@ -144,7 +144,7 @@ public class PPdFPortal extends Model {
 				address, birthDate, baptismDate, baptismParish,
 				firstCommunionDate, firstCommunionParish, volumeDegree,
 				guardianName, guardianContact).save();
-		return (Student)this.getUser(userId);
+		return userId;
 	}
 
 	public static Finder<Integer, PPdFPortal> find = new Finder<Integer, PPdFPortal>(

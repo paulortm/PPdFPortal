@@ -40,19 +40,19 @@
 				<p><strong>Morada: </strong>@student.address</p><p>
 				<p><strong>Contacto: </strong>@student.contact</p><p>
 				<p><strong>Email: </strong>@student.email</p><p>
-				<p><strong>Data de nascimento: </strong>@student.birthDate</p><p>
+				<p><strong>Data de nascimento: </strong>@util.Date.storeStringtoDisplayString(student.birthDate)</p><p>
 				<p><strong>Nome do encarregado de educação: </strong>@student.guardianName</p><p>
 				<p><strong>Contacto do encarregado de educação: </strong>@student.guardianContact</p><p>
 				<p><strong>Batismo:</strong></p>
 				@if(student.baptismDate) {
-					<p><strong>Data: </strong>@student.baptismDate</p>
+					<p><strong>Data: </strong>@util.Date.storeStringtoDisplayString(student.baptismDate)</p>
 					<p><strong>Paróquia: </strong>@student.baptismParish</p>
 				} else {
 					<p>Ainda não fez</p>
 				}
 				<p><p><strong>Primeira Comunhão:</strong></p>
 				@if(student.firstCommunionDate) {
-					<p><strong>Data: </strong>@student.firstCommunionDate</p>
+					<p><strong>Data: </strong>@util.Date.storeStringtoDisplayString(student.firstCommunionDate)</p>
 					<p><strong>Paróquia: </strong>@student.firstCommunionParish</p>
 				} else {
 					<p>Ainda não fez</p>
