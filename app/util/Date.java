@@ -2,14 +2,7 @@ package util;
 
 public class Date {
 
-	public static String makeStringToStore(Integer day, Integer month, Integer year) {
-		if (day != null && month != null && year != null)
-			return year + "-" + month + "-" + day;
-		else
-			return null;
-	}
-	
-	public static String storeStringtoDisplayString(String date) {
+	public static String makeStringtoDisplay(String date) {
 		String[] splittedDate = date.split("-");
 		return splittedDate[2] + "/" + splittedDate[1] + "/" + splittedDate[0];
 	}

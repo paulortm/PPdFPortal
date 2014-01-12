@@ -1,0 +1,45 @@
+@(loggedUser: models.User, student: models.Student)
+
+@main("PPdFPortal") {
+	<div class="container">
+    	<div class="breadcrumb">
+    		<div class="row">
+				<div class="col-md-2">Administrador (@loggedUser.name)</div>
+				<div class="col-md-1 col-md-offset-9">
+					<a href="@routes.Application.logout" class="btn btn-primary" role="button">
+						Logout
+					</a>
+				</div>
+    		</div>
+		</div>
+		
+		<div class="btn-group">
+			<a href="@routes.Application.index" class="btn btn-default" role="button">
+				<span class="glyphicon glyphicon-home"></span>
+			</a>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">Editar catequisando com o identificador @student.userId</div>
+			<div class="panel-body">
+				<form role="form" action="@routes.AdminApp.storeStudentEdition(student.userId)" method="post">
+					<p><strong>Nome: </strong><input type="text" class="form-control" value="@student.name" name="name" required></p>
+					<p><strong>Morada: </strong><input type="text" class="form-control" value="@student.address" name="address" required></p>
+					<p><strong>Contacto: </strong><input type="text" class="form-control" value="@student.contact" name="contact" required></p>
+					<p><strong>Email: </strong><input type="email" class="form-control" value="@student.email" name="email" required></p>
+					<p><strong>Data de nascimento: </strong><input type="date" class="form-control" value="@student.birthDate" name="birthDate" required></p>
+					<p><strong>Nome do encarregado de educação: </strong><input type="text" class="form-control" value="@student.guardianName" name="guardianName" required></p>
+					<p><strong>Contacto do encarregado de educação: </strong><input type="text" class="form-control" value="@student.guardianContact" name="guardianContact" required></p>
+					<p><strong>Batismo:</strong> (Se não for batizado, deixe os campos em branco)</p>
+					<p><strong>Data: </strong><input type="date" class="form-control" value="@student.baptismDate" name="baptismDate"></p>
+					<p><strong>Paróquia: </strong><input type="text" class="form-control" value="@student.baptismParish" name="baptismParish"></p>
+					<p><strong>Primeira Comunhão:</strong> (Se ainda não fez a primeira comunhão, deixe os campos em branco)</p>
+					<p><strong>Data: </strong><input type="date" class="form-control" value="@student.firstCommunionDate" name="firstCommunionDate"></p>
+					<p><strong>Paróquia: </strong><input type="text" class="form-control" value="@student.firstCommunionParish" name="firstCommunionParish"></p>
+					<button class="btn btn-primary" type="submit">Submeter</button>
+				</form>
+			</div>
+		</div>
+    </div>
+
+}

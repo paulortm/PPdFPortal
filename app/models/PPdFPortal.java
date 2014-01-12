@@ -3,6 +3,8 @@ package models;
 import javax.persistence.*;
 import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
+import util.Date;
+
 import com.avaje.ebean.*;
 
 import java.util.LinkedList;
@@ -140,11 +142,31 @@ public class PPdFPortal extends Model {
 			String firstCommunionParish, Integer volumeDegree,
 			String guardianName, String guardianContact) {
 		String userId = this.generateStudentId();
-		new Student(userId, name, password, contact, email,
-				address, birthDate, baptismDate, baptismParish,
-				firstCommunionDate, firstCommunionParish, volumeDegree,
-				guardianName, guardianContact).save();
+		new Student(userId, name, password, contact, email, address, birthDate,
+				baptismDate, baptismParish, firstCommunionDate,
+				firstCommunionParish, volumeDegree, guardianName,
+				guardianContact).save();
 		return userId;
+	}
+
+	public void editStudent(String userId, String name, String contact,
+			String email, String address, String birthDate, String baptismDate,
+			String baptismParish, String firstCommunionDate,
+			String firstCommunionParish, String guardianName,
+			String guardianContact) {
+		Student st = (Student) this.getUser(userId);
+		st.name = name;
+		st.contact = contact;
+		st.email = email;
+		st.address = address;
+		st.birthDate = birthDate;
+		st.baptismDate = baptismDate;
+		st.baptismParish = baptismParish;
+		st.firstCommunionDate = firstCommunionDate;
+		st.firstCommunionParish = firstCommunionParish;
+		st.guardianName = guardianName;
+		st.guardianContact = guardianContact;
+		st.update();
 	}
 
 	public static Finder<Integer, PPdFPortal> find = new Finder<Integer, PPdFPortal>(

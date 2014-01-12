@@ -18,6 +18,8 @@ GET    /enroll/:userId/:volumeId    controllers.AdminApp.enroll(userId: String, 
 GET    /unenroll/:userId            controllers.AdminApp.unenroll(userId: String)
 GET    /createStudent               controllers.AdminApp.createStudent()
 POST   /createStudent               controllers.AdminApp.storeStudent()
+GET    /editStudent/:userId         controllers.AdminApp.editStudent(userId: String)
+POST   /editStudent/:userId         controllers.AdminApp.storeStudentEdition(userId: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

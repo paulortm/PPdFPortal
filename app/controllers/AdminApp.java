@@ -16,7 +16,7 @@ public class AdminApp extends Controller {
 
 	public static PPdFPortal portal = PPdFPortal.find.byId(1);
 
-	public static class CreateStudent {
+	public static class StudentForm {
 
 		public String name;
 		public String address;
@@ -80,7 +80,7 @@ public class AdminApp extends Controller {
 	public static Result storeStudent() {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
-			Form<CreateStudent> createStudentForm = form(CreateStudent.class)
+			Form<StudentForm> createStudentForm = form(StudentForm.class)
 					.bindFromRequest();
 			return redirect(routes.AdminApp.showStudent(portal.createStudent(
 					createStudentForm.get().name, "password",
@@ -95,6 +95,39 @@ public class AdminApp extends Controller {
 					createStudentForm.get().volumeDegree,
 					createStudentForm.get().guardianName,
 					createStudentForm.get().guardianContact)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result editStudent(String userId) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(editStudent.render(portal.getUser(loggedUser),
+					(Student) portal.getUser(userId)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result storeStudentEdition(String userId) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			Form<StudentForm> editStudentForm = form(StudentForm.class)
+					.bindFromRequest();
+			portal.editStudent(userId, editStudentForm.get().name,
+					editStudentForm.get().contact, editStudentForm.get().email,
+					editStudentForm.get().address,
+					editStudentForm.get().birthDate,
+					editStudentForm.get().baptismDate,
+					editStudentForm.get().baptismParish,
+					editStudentForm.get().firstCommunionDate,
+					editStudentForm.get().firstCommunionParish,
+					editStudentForm.get().guardianName,
+					editStudentForm.get().guardianContact);
+			return redirect(routes.AdminApp.showStudent(userId));
 		} else {
 			return badRequest("Não tem permições");
 		}

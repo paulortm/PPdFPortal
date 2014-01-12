@@ -20,23 +20,23 @@
 		</div>
 
 		<div class="panel panel-primary">
-			<div class="panel-heading"><strong>Criar catequisando</div>
+			<div class="panel-heading">Criar catequisando</div>
 			<div class="panel-body">
 				<form role="form" action="@routes.AdminApp.storeStudent" method="post">
-					<p><strong>Nome: </strong><input type="text" class="form-control" name="name" required></p><p>
-					<p><strong>Morada: </strong><input type="text" class="form-control" name="address" required></p><p>
-					<p><strong>Contacto: </strong><input type="text" class="form-control" name="contact" required></p><p>
-					<p><strong>Email: </strong><input type="email" class="form-control" name="email" required></p><p>
-					<p><strong>Data de nascimento: </strong><input type="date" class="form-control" name="birthDate" required></p><p>
-					<p><strong>Nome do encarregado de educação: </strong><input type="text" class="form-control" name="guardianName" required></p><p>
-					<p><strong>Contacto do encarregado de educação: </strong><input type="text" class="form-control" name="guardianContact" required></p><p>
+					<p><strong>Nome: </strong><input type="text" class="form-control" name="name" required></p>
+					<p><strong>Morada: </strong><input type="text" class="form-control" name="address" required></p>
+					<p><strong>Contacto: </strong><input type="text" class="form-control" name="contact" required></p>
+					<p><strong>Email: </strong><input type="email" class="form-control" name="email" required></p>
+					<p><strong>Data de nascimento: </strong><input type="date" class="form-control" name="birthDate" required></p>
+					<p><strong>Nome do encarregado de educação: </strong><input type="text" class="form-control" name="guardianName" required></p>
+					<p><strong>Contacto do encarregado de educação: </strong><input type="text" class="form-control" name="guardianContact" required></p>
 					<p><strong>Batismo:</strong> (Se não for batizado, deixe os campos em branco)</p>
 					<p><strong>Data: </strong><input type="date" class="form-control" name="baptismDate"></p>
 					<p><strong>Paróquia: </strong><input type="text" class="form-control" name="baptismParish"></p>
-					<p><p><strong>Primeira Comunhão:</strong> (Se ainda não fez a primeira comunhão, deixe os campos em branco)</p>
+					<p><strong>Primeira Comunhão:</strong> (Se ainda não fez a primeira comunhão, deixe os campos em branco)</p>
 					<p><strong>Data: </strong><input type="date" class="form-control" name="firstCommunionDate"></p>
 					<p><strong>Paróquia: </strong><input type="text" class="form-control" name="firstCommunionParish"></p>
-					<p><p><strong>Último volume concluído (se ainda não concluio nenhum volume, coloque 0): </strong><input type="number" min="0" max="10" class="form-control" name="volumeDegree" required></p><p>
+					<p><strong>Último volume concluído:</strong> (se ainda não concluio nenhum volume, coloque 0)<input type="number" min="0" max="10" class="form-control" name="volumeDegree" required></p>
 					<button class="btn btn-primary" type="submit">Submeter</button>
 				</form>
 			</div>
