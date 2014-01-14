@@ -29,9 +29,9 @@ public class AdminApp extends Application {
 		public String firstCommunionParish;
 		public Integer volumeDegree;
 	}
-	
+
 	public static class ChangeYearForm {
-		
+
 		public String password;
 	}
 
@@ -63,7 +63,7 @@ public class AdminApp extends Application {
 		if (portal.isAdmin(loggedUser)) {
 			return ok(student.render(portal.getUser(loggedUser),
 					(Student) portal.getUser(userId),
-					portal.getCurrentVolumes()));
+					portal.getYearCurrentVolumes(portal.currentYear.id)));
 		} else {
 			return badRequest("Não tem permições");
 		}
@@ -168,12 +168,13 @@ public class AdminApp extends Application {
 			return badRequest("Não tem permições");
 		}
 	}
-	
+
 	@Security.Authenticated(Secured.class)
 	public static Result changeYear() {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
-			Form<ChangeYearForm> changeYearForm = form(ChangeYearForm.class).bindFromRequest();
+			Form<ChangeYearForm> changeYearForm = form(ChangeYearForm.class)
+					.bindFromRequest();
 			if (portal.authenticate(loggedUser, changeYearForm.get().password) == null) {
 				flash("failedChangeYear", "Password errada");
 				return redirect(routes.AdminApp.changeYearPage());
@@ -182,7 +183,22 @@ public class AdminApp extends Application {
 				return redirect(routes.Application.index());
 			}
 		} else {
-			
+
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result showYear(String yearId) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			String prevYearId = portal.getPrevYearId(yearId);
+			String nextYearId = portal.getNextYearId(yearId);
+			return ok(indexAdm.render(portal.getUser(loggedUser),
+					portal.getYear(prevYearId), portal.getYear(yearId),
+					portal.getYear(nextYearId),
+					portal.getYearCurrentVolumes(yearId)));
+		} else {
 			return badRequest("Não tem permições");
 		}
 	}

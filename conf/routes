@@ -22,6 +22,7 @@ GET    /editStudent/:userId         controllers.AdminApp.editStudent(userId: Str
 POST   /editStudent/:userId         controllers.AdminApp.storeStudentEdition(userId: String)
 GET    /changeYear                  controllers.AdminApp.changeYearPage()
 POST   /changeYear                  controllers.AdminApp.changeYear()
+GET    /showYear/:yearId            controllers.AdminApp.showYear(yearId: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

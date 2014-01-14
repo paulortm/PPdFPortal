@@ -1,4 +1,4 @@
-@(loggedUser: models.User, currentYear: Year, volumes: List[models.Volume])
+@(loggedUser: models.User, prevYear: Year, year: Year, nextYear: Year, volumes: List[models.Volume])
 
 @main("PPdFPortal") {
 	<div class="container">
@@ -28,13 +28,35 @@
 			<div class="btn-group pull-right">
 				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Opções <span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="@routes.AdminApp.changeYear" class="btn btn-default" role="button">Mudar de ano lectivo</a></li>
+					<li><a href="@routes.AdminApp.changeYear">Mudar de ano lectivo</a></li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="panel panel-primary">
-			<div class="panel-heading">Volumes do ano lectivo @currentYear.id</div>
+			<div class="panel-heading">
+				<div class="btn-toolbar">
+					<div class="btn-group">
+						@if(prevYear != null) {
+							<a href="@routes.AdminApp.showYear(prevYear.id)" class="btn btn-primary btn-xs" role="button">
+								<span class="glyphicon glyphicon-chevron-left"></span>
+							</a>
+						}
+					</div>
+					@if(nextYear == null) {
+						&nbsp&nbsp&nbspVolumes do ano lectivo @year.id (actual)
+					} else {
+						&nbsp&nbsp&nbspVolumes do ano lectivo @year.id
+					}
+					<div class="btn-group pull-right">
+						@if(nextYear != null) {
+							<a href="@routes.AdminApp.showYear(nextYear.id)" class="btn btn-primary btn-xs" role="button">
+								<span class="glyphicon glyphicon-chevron-right"></span>
+							</a>
+						}
+					</div>
+				</div>
+			</div>
 			<div class="panel-body">
 				<div class="btn-group-vertical col-md-12">
 					@for(i <- 0 to volumes.size - 1) {

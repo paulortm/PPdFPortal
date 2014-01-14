@@ -22,8 +22,12 @@ public class Application extends Controller {
 	public static Result index() {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
+			String prevYearId = portal.getPrevYearId(portal.currentYear.id);
+			String nextYearId = portal.getNextYearId(portal.currentYear.id);
 			return ok(indexAdm.render(portal.getUser(loggedUser),
-					portal.currentYear, portal.getCurrentVolumes()));
+					portal.getYear(prevYearId), portal.currentYear,
+					portal.getYear(nextYearId),
+					portal.getYearCurrentVolumes(portal.currentYear.id)));
 		} else {
 			return ok(indexCat.render("PPdFPortal"));
 		}

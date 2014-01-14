@@ -52,6 +52,20 @@ public class PPdFPortal extends Model {
 		return yearId;
 	}
 
+	public String getPrevYearId(String yearId) {
+		String[] splittedYear = yearId.split(Constants.YEAR_DIV_TOKEN);
+		Integer year1 = Integer.parseInt(splittedYear[0]);
+		Integer year2 = Integer.parseInt(splittedYear[1]);
+		return --year1 + Constants.YEAR_DIV_TOKEN + --year2;
+	}
+
+	public String getNextYearId(String yearId) {
+		String[] splittedYear = yearId.split(Constants.YEAR_DIV_TOKEN);
+		Integer year1 = Integer.parseInt(splittedYear[0]);
+		Integer year2 = Integer.parseInt(splittedYear[1]);
+		return ++year1 + Constants.YEAR_DIV_TOKEN + ++year2;
+	}
+
 	public User authenticate(String userId, String password) {
 		User userAdmin = Administrator.find.where().eq("userId", userId)
 				.eq("password", password).findUnique();
@@ -64,6 +78,10 @@ public class PPdFPortal extends Model {
 			return userStudent;
 	}
 
+	public Year getYear(String id) {
+		return Year.find.byId(id);
+	}
+
 	public User getUser(String userId) {
 		String userType = userId.substring(0, 3);
 
@@ -73,8 +91,8 @@ public class PPdFPortal extends Model {
 			return Student.find.where().eq("userId", userId).findUnique();
 	}
 
-	public List<Volume> getCurrentVolumes() {
-		return this.currentYear.volumes;
+	public List<Volume> getYearCurrentVolumes(String yearId) {
+		return this.getYear(yearId).volumes;
 	}
 
 	public Volume getVolume(Integer id) {
@@ -170,7 +188,7 @@ public class PPdFPortal extends Model {
 		st.guardianContact = guardianContact;
 		st.update();
 	}
-	
+
 	public void changeYear() {
 		String newYearId = this.generateYearId();
 		Year newYear, oldYear;
