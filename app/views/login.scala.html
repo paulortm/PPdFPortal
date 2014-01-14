@@ -7,9 +7,9 @@
 				<tr><input type="text" class="form-control" name="userId" placeholder="Identificador" required autofocus></tr>
 				<tr><input type="password" class="form-control" name="password" placeholder="Password" required></tr>
 				<tr>
-				@if(flash.contains("success")) {
+				@if(flash.contains("successLogout")) {
     				<p class="text-info">
-        				* @flash.get("success")
+        				* @flash.get("successLogout")
     				</p>
 				} else {
 					@if(flash.contains("failedLogin")) {

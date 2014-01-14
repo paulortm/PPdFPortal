@@ -2,6 +2,7 @@ import play.*;
 import play.libs.*;
 import com.avaje.ebean.Ebean;
 import models.*;
+import util.Constants;
 
 import java.util.*;
 
@@ -12,12 +13,12 @@ public class Global extends GlobalSettings {
 		if (PPdFPortal.find.byId(1) == null) {
 			Integer i;
 
-			for (i = 1; i < 13; i++) {
-				new Volume(i, true).save();
+			for (i = 1; i <= Constants.MAX_VOLUMES; i++) {
+				new Volume(i).save();
 			}
 			new Year("2013/2014", true).save();
 			Year y = Year.find.byId("2013/2014");
-			for (i = 1; i < 11; i++) {
+			for (i = 1; i <= Constants.MAX_VOLUMES; i++) {
 				Volume v = Volume.find.byId(i);
 				v.year = y;
 				y.volumes.add(v);

@@ -3,6 +3,7 @@ package models;
 import javax.persistence.*;
 import play.db.ebean.*;
 import play.db.ebean.Model.Finder;
+import util.Constants;
 import util.Date;
 
 import com.avaje.ebean.*;
@@ -45,7 +46,8 @@ public class PPdFPortal extends Model {
 	}
 
 	private String generateYearId() {
-		String yearId = this.nextYear + "/" + ++this.nextYear;
+		String yearId = this.nextYear + Constants.YEAR_DIV_TOKEN
+				+ ++this.nextYear;
 		this.update();
 		return yearId;
 	}
@@ -167,6 +169,18 @@ public class PPdFPortal extends Model {
 		st.guardianName = guardianName;
 		st.guardianContact = guardianContact;
 		st.update();
+	}
+	
+	public void changeYear() {
+		String newYearId = this.generateYearId();
+		Year newYear, oldYear;
+		new Year(newYearId).save();
+		newYear = Year.find.byId(newYearId);
+		oldYear = this.currentYear;
+		oldYear.makeOld();
+		newYear.makeNew();
+		this.currentYear = newYear;
+		this.update();
 	}
 
 	public static Finder<Integer, PPdFPortal> find = new Finder<Integer, PPdFPortal>(

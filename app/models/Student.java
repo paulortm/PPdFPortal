@@ -44,6 +44,13 @@ public class Student extends User {
 		this.isActive = true;
 	}
 
+	public void changeYear() {
+		this.previousVolumes.add(this.currentVolume);
+		this.volumeDegree = this.currentVolume.degree;
+		this.currentVolume = null;
+		this.update();
+	}
+
 	public static Finder<String, Student> find = new Finder<String, Student>(
 			String.class, Student.class);
 

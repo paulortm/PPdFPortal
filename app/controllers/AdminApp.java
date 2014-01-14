@@ -12,9 +12,7 @@ import static play.data.Form.*;
 import util.Date;
 import views.html.*;
 
-public class AdminApp extends Controller {
-
-	public static PPdFPortal portal = PPdFPortal.find.byId(1);
+public class AdminApp extends Application {
 
 	public static class StudentForm {
 
@@ -30,6 +28,11 @@ public class AdminApp extends Controller {
 		public String firstCommunionDate;
 		public String firstCommunionParish;
 		public Integer volumeDegree;
+	}
+	
+	public static class ChangeYearForm {
+		
+		public String password;
 	}
 
 	@Security.Authenticated(Secured.class)
@@ -155,4 +158,32 @@ public class AdminApp extends Controller {
 		}
 	}
 
+	@Security.Authenticated(Secured.class)
+	public static Result changeYearPage() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(changeYear.render(portal.getUser(loggedUser),
+					portal.currentYear));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+	
+	@Security.Authenticated(Secured.class)
+	public static Result changeYear() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			Form<ChangeYearForm> changeYearForm = form(ChangeYearForm.class).bindFromRequest();
+			if (portal.authenticate(loggedUser, changeYearForm.get().password) == null) {
+				flash("failedChangeYear", "Password errada");
+				return redirect(routes.AdminApp.changeYearPage());
+			} else {
+				portal.changeYear();
+				return redirect(routes.Application.index());
+			}
+		} else {
+			
+			return badRequest("Não tem permições");
+		}
+	}
 }

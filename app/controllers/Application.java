@@ -35,7 +35,7 @@ public class Application extends Controller {
 
 	public static Result logout() {
 		session().clear();
-		flash("success", "Logout efectuado");
+		flash("successLogout", "Logout efectuado");
 		return redirect(routes.Application.login());
 	}
 

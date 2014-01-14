@@ -17,13 +17,17 @@ public class Volume extends Model {
 	public Year year;
 	@ManyToMany
 	public List<Student> students = new LinkedList<Student>();
-	public boolean isCurrent;
 
-	public Volume(Integer degree, boolean isCurrent) {
+	public Volume(Integer degree) {
 		super();
 		this.degree = degree;
 		this.year = null;
-		this.isCurrent = isCurrent;
+	}
+
+	public void changeYear() {
+		for (Student st : this.students) {
+			st.changeYear();
+		}
 	}
 
 	public static Finder<Integer, Volume> find = new Finder<Integer, Volume>(
