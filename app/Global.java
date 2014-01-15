@@ -30,7 +30,7 @@ public class Global extends GlobalSettings {
 					"Rua root").save();
 
 			PPdFPortal portal = PPdFPortal.find.byId(1);
-			portal.createStudent("José Esteves", "password", "212121212",
+			portal.createStudent("José Esteves", "212121212",
 					"jesteves@gmail.com", "Rua Coiso nº1", "2007-11-03", null,
 					null, null, null, 0, "Maria Esteves", "121212121");
 		}

@@ -31,6 +31,10 @@ public class PPdFPortal extends Model {
 		this.currentYear = currentYear;
 	}
 
+	private String generatePassword() {
+		return "password";
+	}
+
 	private String generateAdminId() {
 		String adminId = "adm" + this.nextAdminId;
 		this.nextAdminId++;
@@ -72,10 +76,18 @@ public class PPdFPortal extends Model {
 		User userStudent = Student.find.where().eq("userId", userId)
 				.eq("password", password).findUnique();
 
-		if (userAdmin != null)
-			return userAdmin;
-		else
-			return userStudent;
+		if (userAdmin != null) {
+			if (((Administrator) userAdmin).isActive)
+				return userAdmin;
+			else
+				return null;
+		} else if (userStudent != null) {
+			if (((Student) userStudent).isActive)
+				return userStudent;
+			else
+				return null;
+		} else
+			return null;
 	}
 
 	public Year getYear(String id) {
@@ -90,9 +102,26 @@ public class PPdFPortal extends Model {
 		else
 			return Student.find.where().eq("userId", userId).findUnique();
 	}
+	
+	public List<Administrator> getAdministrators() {
+		return Administrator.find.all();
+	}
 
 	public List<Volume> getYearCurrentVolumes(String yearId) {
 		return this.getYear(yearId).volumes;
+	}
+
+	public List<Volume> getVolumesToEnroll(String userId) {
+		Student st = (Student) this.getUser(userId);
+		List<Volume> volumes = new LinkedList<Volume>();
+
+		for (Volume v : this.currentYear.volumes) {
+			if (v.degree > st.volumeDegree) {
+				volumes.add(v);
+			}
+		}
+
+		return volumes;
 	}
 
 	public Volume getVolume(Integer id) {
@@ -148,24 +177,24 @@ public class PPdFPortal extends Model {
 			return false;
 	}
 
-	public String createAdministrator(String name, String password,
-			String contact, String email, String address) {
+	public String createAdministrator(String name, String contact,
+			String email, String address) {
 		String userId = this.generateAdminId();
-		new Administrator(this.generateAdminId(), name, password, contact,
+		new Administrator(userId, name, this.generatePassword(), contact,
 				email, address).save();
 		return userId;
 	}
 
-	public String createStudent(String name, String password, String contact,
-			String email, String address, String birthDate, String baptismDate,
+	public String createStudent(String name, String contact, String email,
+			String address, String birthDate, String baptismDate,
 			String baptismParish, String firstCommunionDate,
 			String firstCommunionParish, Integer volumeDegree,
 			String guardianName, String guardianContact) {
 		String userId = this.generateStudentId();
-		new Student(userId, name, password, contact, email, address, birthDate,
-				baptismDate, baptismParish, firstCommunionDate,
-				firstCommunionParish, volumeDegree, guardianName,
-				guardianContact).save();
+		new Student(userId, name, this.generatePassword(), contact, email,
+				address, birthDate, baptismDate, baptismParish,
+				firstCommunionDate, firstCommunionParish, volumeDegree,
+				guardianName, guardianContact).save();
 		return userId;
 	}
 

@@ -1,0 +1,38 @@
+@(loggedUser: models.User)
+
+@main("PPdFPortal") {
+	<div class="container">
+    	<div class="breadcrumb">
+    		<div class="row">
+				<div class="col-md-2">Administrador (@loggedUser.name)</div>
+				<div class="col-md-1 col-md-offset-9">
+					<a href="@routes.Application.logout" class="btn btn-primary" role="button">
+						Logout
+					</a>
+				</div>
+    		</div>
+		</div>
+		
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a href="@routes.Application.index" class="btn btn-default" role="button">
+					<span class="glyphicon glyphicon-home"></span>
+				</a>
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">Criar administrador</div>
+			<div class="panel-body">
+				<form role="form" action="@routes.AdminApp.storeAdministrator" method="post">
+					<p><strong>Nome: </strong><input type="text" class="form-control" name="name" required></p>
+					<p><strong>Morada: </strong><input type="text" class="form-control" name="address" required></p>
+					<p><strong>Contacto: </strong><input type="text" class="form-control" name="contact" required></p>
+					<p><strong>Email: </strong><input type="email" class="form-control" name="email" required></p>
+					<button class="btn btn-primary" type="submit">Submeter</button>
+				</form>
+			</div>
+		</div>
+    </div>
+
+}

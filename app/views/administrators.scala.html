@@ -1,0 +1,38 @@
+@(loggedUser: models.User, administrators: List[models.Administrator])
+
+@main("PPdFPortal") {
+	<div class="container">
+    	<div class="breadcrumb">
+    		<div class="row">
+				<div class="col-md-2">Administrador (@loggedUser.name)</div>
+				<div class="col-md-1 col-md-offset-9">
+					<a href="@routes.Application.logout" class="btn btn-primary" role="button">
+						Logout
+					</a>
+				</div>
+    		</div>
+		</div>
+		
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a href="@routes.Application.index" class="btn btn-default" role="button">
+					<span class="glyphicon glyphicon-home"></span>
+				</a>
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">Administradores registados</div>
+			<div class="panel-body">
+				<div class="btn-group-vertical col-md-12">
+					@for(i <- 0 to administrators.size - 1) {
+						<form role="form" action="@routes.AdminApp.showAdministrator(administrators.get(i).userId)" method="get">
+							<button class="btn btn-default btn-block" name="administrator" type="submit" value="@administrators.get(i).userId"><strong>Identificador: </strong>@administrators.get(i).userId <strong>Nome: </strong>@administrators.get(i).name</button>						
+						</form>
+					}
+				</div>
+			</div>
+		</div>
+    </div>
+
+}

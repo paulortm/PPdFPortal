@@ -1,6 +1,7 @@
 package controllers;
 
 import controllers.Application.Login;
+import models.Administrator;
 import models.PPdFPortal;
 import models.Student;
 import models.Volume;
@@ -28,6 +29,14 @@ public class AdminApp extends Application {
 		public String firstCommunionDate;
 		public String firstCommunionParish;
 		public Integer volumeDegree;
+	}
+
+	public static class AdministratorForm {
+
+		public String name;
+		public String address;
+		public String contact;
+		public String email;
 	}
 
 	public static class ChangeYearForm {
@@ -63,7 +72,7 @@ public class AdminApp extends Application {
 		if (portal.isAdmin(loggedUser)) {
 			return ok(student.render(portal.getUser(loggedUser),
 					(Student) portal.getUser(userId),
-					portal.getYearCurrentVolumes(portal.currentYear.id)));
+					portal.getVolumesToEnroll(userId)));
 		} else {
 			return badRequest("Não tem permições");
 		}
@@ -86,7 +95,7 @@ public class AdminApp extends Application {
 			Form<StudentForm> createStudentForm = form(StudentForm.class)
 					.bindFromRequest();
 			return redirect(routes.AdminApp.showStudent(portal.createStudent(
-					createStudentForm.get().name, "password",
+					createStudentForm.get().name,
 					createStudentForm.get().contact,
 					createStudentForm.get().email,
 					createStudentForm.get().address,
@@ -148,11 +157,59 @@ public class AdminApp extends Application {
 	}
 
 	@Security.Authenticated(Secured.class)
+	public static Result showAdministrators() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(administrators.render(portal.getUser(loggedUser),
+					portal.getAdministrators()));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
 	public static Result unenroll(String userId) {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
 			portal.unenrollStudent(userId);
 			return redirect(routes.AdminApp.showStudent(userId));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result showAdministrator(String userId) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(administrator.render(portal.getUser(loggedUser),
+					(Administrator) portal.getUser(userId)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result createAdministrator() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(createAdministrator.render(portal.getUser(loggedUser)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result storeAdministrator() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			Form<AdministratorForm> createAdministratorForm = form(
+					AdministratorForm.class).bindFromRequest();
+			return redirect(routes.AdminApp.showAdministrator(portal
+					.createAdministrator(createAdministratorForm.get().name,
+							createAdministratorForm.get().contact,
+							createAdministratorForm.get().email,
+							createAdministratorForm.get().address)));
 		} else {
 			return badRequest("Não tem permições");
 		}
