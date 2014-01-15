@@ -1,0 +1,41 @@
+@(loggedUser: models.User)
+
+@main("PPdFPortal") {
+	<div class="container">
+    	<div class="breadcrumb">
+    		<div class="row">
+				<div class="col-md-2">Administrador (@loggedUser.name)</div>
+				<div class="col-md-1 col-md-offset-9">
+					<a href="@routes.Application.logout" class="btn btn-primary" role="button">
+						Logout
+					</a>
+				</div>
+    		</div>
+		</div>
+		
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a href="@routes.Application.index" class="btn btn-default" role="button">
+					<span class="glyphicon glyphicon-home"></span>
+				</a>
+				<a href="@routes.AdminApp.changePassword" class="btn btn-default" role="button">
+					<span class="glyphicon glyphicon-pencil"></span>&nbspMudar password
+				</a>
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">Editar informações pessoais</div>
+			<div class="panel-body">
+				<form role="form" action="@routes.AdminApp.storeAdministratorEdition" method="post">
+					<p><strong>Nome: </strong><input type="text" class="form-control" value="@loggedUser.name" name="name" required></p>
+					<p><strong>Morada: </strong><input type="text" class="form-control" value="@loggedUser.address" name="address" required></p>
+					<p><strong>Contacto: </strong><input type="text" class="form-control" value="@loggedUser.contact" name="contact" required></p>
+					<p><strong>Email: </strong><input type="email" class="form-control" value="@loggedUser.email" name="email" required></p>
+					<button class="btn btn-primary" type="submit">Submeter</button>
+				</form>
+			</div>
+		</div>
+    </div>
+
+}

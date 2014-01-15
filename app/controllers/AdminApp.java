@@ -39,6 +39,13 @@ public class AdminApp extends Application {
 		public String email;
 	}
 
+	public static class ChangePasswordForm {
+
+		public String oldPassword;
+		public String newPassword;
+		public String newPasswordConf;
+	}
+
 	public static class ChangeYearForm {
 
 		public String password;
@@ -211,6 +218,65 @@ public class AdminApp extends Application {
 							createAdministratorForm.get().email,
 							createAdministratorForm.get().address)));
 		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result editAdministrator() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(editAdministrator.render(portal.getUser(loggedUser)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result storeAdministratorEdition() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			Form<AdministratorForm> editAdministratorForm = form(
+					AdministratorForm.class).bindFromRequest();
+			portal.editAdministrator(loggedUser,
+					editAdministratorForm.get().name,
+					editAdministratorForm.get().contact,
+					editAdministratorForm.get().email,
+					editAdministratorForm.get().address);
+			return redirect(routes.AdminApp.showAdministrator(loggedUser));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result changePasswordPage() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			return ok(changePassword.render(portal.getUser(loggedUser)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result changePassword() {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			Form<ChangePasswordForm> changePasswordForm = form(
+					ChangePasswordForm.class).bindFromRequest();
+			if (portal.authenticate(loggedUser,
+					changePasswordForm.get().oldPassword) == null
+					|| !changePasswordForm.get().newPassword
+							.equals(changePasswordForm.get().newPasswordConf)) {
+				flash("failedChangePassword", "Password errada");
+				return redirect(routes.AdminApp.changePasswordPage());
+			} else {
+				portal.changePassword(loggedUser, changePasswordForm.get().newPassword);
+				return redirect(routes.Application.index());
+			}
+		} else {
+
 			return badRequest("Não tem permições");
 		}
 	}

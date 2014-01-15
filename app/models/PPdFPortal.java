@@ -184,6 +184,17 @@ public class PPdFPortal extends Model {
 				email, address).save();
 		return userId;
 	}
+	
+	public void editAdministrator(String userId, String name, String contact,
+			String email, String address) {
+		Administrator admin = (Administrator) this.getUser(userId);
+		admin.name = name;
+		admin.contact = contact;
+		admin.email = email;
+		admin.address = address;
+		admin.update();
+	}
+	
 
 	public String createStudent(String name, String contact, String email,
 			String address, String birthDate, String baptismDate,
@@ -216,6 +227,12 @@ public class PPdFPortal extends Model {
 		st.guardianName = guardianName;
 		st.guardianContact = guardianContact;
 		st.update();
+	}
+	
+	public void changePassword(String userId, String password) {
+		User user = this.getUser(userId);
+		user.password = password;
+		user.update();
 	}
 
 	public void changeYear() {
