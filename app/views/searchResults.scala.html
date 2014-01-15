@@ -1,4 +1,4 @@
-@(loggedUser: models.User)
+@(loggedUser: models.User, students: List[models.Student])
 
 @main("PPdFPortal") {
 	<div class="container">
@@ -14,7 +14,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-12 invisible">
+			<div class="col-md-12">
 				<form role="form" class="input-group" action="/search" method="get">
 					<input type="text" class="form-control" name="catName" placeholder="Nome de catequisando a pesquisar" required>
 					<div class="input-group-btn">
@@ -39,15 +39,15 @@
 		</div>
 
 		<div class="panel panel-primary">
-			<div class="panel-heading">Criar administrador</div>
+			<div class="panel-heading">Resultados da pesquisa</div>
 			<div class="panel-body">
-				<form role="form" action="@routes.AdminApp.storeAdministrator" method="post">
-					<p><strong>Nome: </strong><input type="text" class="form-control" name="name" required></p>
-					<p><strong>Morada: </strong><input type="text" class="form-control" name="address" required></p>
-					<p><strong>Contacto: </strong><input type="text" class="form-control" name="contact" required></p>
-					<p><strong>Email: </strong><input type="email" class="form-control" name="email" required></p>
-					<button class="btn btn-primary" type="submit">Submeter</button>
-				</form>
+				<div class="btn-group-vertical col-md-12">
+					@for(i <- 0 to students.size - 1) {
+						<form role="form" action="@routes.AdminApp.showStudent(students.get(i).userId)" method="get">
+							<button class="btn btn-default btn-block" name="student" type="submit" value="@students.get(i).userId"><strong>Identificador: </strong>@students.get(i).userId <strong>Nome: </strong>@students.get(i).name</button>						
+						</form>
+					}
+				</div>
 			</div>
 		</div>
     </div>

@@ -31,6 +31,7 @@ POST   /changePassword              controllers.AdminApp.changePassword()
 GET    /changeYear                  controllers.AdminApp.changeYearPage()
 POST   /changeYear                  controllers.AdminApp.changeYear()
 GET    /showYear/:yearId            controllers.AdminApp.showYear(yearId: String)
+GET    /search                      controllers.AdminApp.search(catName: String?="")
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

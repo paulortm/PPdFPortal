@@ -11,6 +11,8 @@ import play.data.*;
 import static play.data.Form.*;
 
 import util.Date;
+import util.Search.Search;
+import util.Search.SearchByName;
 import views.html.*;
 
 public class AdminApp extends Application {
@@ -272,7 +274,8 @@ public class AdminApp extends Application {
 				flash("failedChangePassword", "Password errada");
 				return redirect(routes.AdminApp.changePasswordPage());
 			} else {
-				portal.changePassword(loggedUser, changePasswordForm.get().newPassword);
+				portal.changePassword(loggedUser,
+						changePasswordForm.get().newPassword);
 				return redirect(routes.Application.index());
 			}
 		} else {
@@ -321,6 +324,18 @@ public class AdminApp extends Application {
 					portal.getYear(prevYearId), portal.getYear(yearId),
 					portal.getYear(nextYearId),
 					portal.getYearCurrentVolumes(yearId)));
+		} else {
+			return badRequest("Não tem permições");
+		}
+	}
+
+	@Security.Authenticated(Secured.class)
+	public static Result search(String catName) {
+		String loggedUser = request().username();
+		if (portal.isAdmin(loggedUser)) {
+			Search search = new SearchByName(catName);
+			return ok(searchResults.render(portal.getUser(loggedUser),
+					search.execute()));
 		} else {
 			return badRequest("Não tem permições");
 		}
