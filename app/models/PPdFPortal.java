@@ -11,6 +11,9 @@ import com.avaje.ebean.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class works like a Facade (design pattern).
+ */
 @Entity
 public class PPdFPortal extends Model {
 
@@ -31,10 +34,21 @@ public class PPdFPortal extends Model {
 		this.currentYear = currentYear;
 	}
 
+	/**
+	 * This method is used to generate passwords to the new users.
+	 * 
+	 * @return the password
+	 */
 	private String generatePassword() {
+		// TODO Make something that generates good random passwords
 		return "password";
 	}
 
+	/**
+	 * This method is used to generate an ID for the new administrator.
+	 * 
+	 * @return the Id
+	 */
 	private String generateAdminId() {
 		String adminId = "adm" + this.nextAdminId;
 		this.nextAdminId++;
@@ -42,6 +56,11 @@ public class PPdFPortal extends Model {
 		return adminId;
 	}
 
+	/**
+	 * This method is used to generate an ID for the new student.
+	 * 
+	 * @return the Id
+	 */
 	private String generateStudentId() {
 		String studentId = "cat" + this.nextStudentId;
 		this.nextStudentId++;
@@ -49,6 +68,12 @@ public class PPdFPortal extends Model {
 		return studentId;
 	}
 
+	/**
+	 * This method is used to generate an ID for the new year (for example:
+	 * "2013/2014", "2014/2015", ...).
+	 * 
+	 * @return the Id
+	 */
 	private String generateYearId() {
 		String yearId = this.nextYear + Constants.YEAR_DIV_TOKEN
 				+ ++this.nextYear;
@@ -56,6 +81,14 @@ public class PPdFPortal extends Model {
 		return yearId;
 	}
 
+	/**
+	 * This method is used when, given an ID of an year, we want the ID of the
+	 * previous year (for example, given the ID "2013/2014", the previous year
+	 * ID is "2012/2013").
+	 * 
+	 * @param yearId the year ID
+	 * @return the ID of the previous year.
+	 */
 	public String getPrevYearId(String yearId) {
 		String[] splittedYear = yearId.split(Constants.YEAR_DIV_TOKEN);
 		Integer year1 = Integer.parseInt(splittedYear[0]);
@@ -63,6 +96,14 @@ public class PPdFPortal extends Model {
 		return --year1 + Constants.YEAR_DIV_TOKEN + --year2;
 	}
 
+	/**
+	 * This method is used when, given an ID of an year, we want the ID of the
+	 * next year (for example, given the ID "2013/2014", the next year
+	 * ID is "2014/2015").
+	 * 
+	 * @param yearId the year ID
+	 * @return the ID of the previous year.
+	 */
 	public String getNextYearId(String yearId) {
 		String[] splittedYear = yearId.split(Constants.YEAR_DIV_TOKEN);
 		Integer year1 = Integer.parseInt(splittedYear[0]);
@@ -90,8 +131,8 @@ public class PPdFPortal extends Model {
 			return null;
 	}
 
-	public Year getYear(String id) {
-		return Year.find.byId(id);
+	public Year getYear(String yearId) {
+		return Year.find.byId(yearId);
 	}
 
 	public User getUser(String userId) {
@@ -102,7 +143,7 @@ public class PPdFPortal extends Model {
 		else
 			return Student.find.where().eq("userId", userId).findUnique();
 	}
-	
+
 	public List<Administrator> getAdministrators() {
 		return Administrator.find.all();
 	}
@@ -184,7 +225,7 @@ public class PPdFPortal extends Model {
 				email, address).save();
 		return userId;
 	}
-	
+
 	public void editAdministrator(String userId, String name, String contact,
 			String email, String address) {
 		Administrator admin = (Administrator) this.getUser(userId);
@@ -194,7 +235,6 @@ public class PPdFPortal extends Model {
 		admin.address = address;
 		admin.update();
 	}
-	
 
 	public String createStudent(String name, String contact, String email,
 			String address, String birthDate, String baptismDate,
@@ -228,7 +268,7 @@ public class PPdFPortal extends Model {
 		st.guardianContact = guardianContact;
 		st.update();
 	}
-	
+
 	public void changePassword(String userId, String password) {
 		User user = this.getUser(userId);
 		user.password = password;

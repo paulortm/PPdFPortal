@@ -330,10 +330,10 @@ public class AdminApp extends Application {
 	}
 
 	@Security.Authenticated(Secured.class)
-	public static Result search(String catName) {
+	public static Result search(String studentName) {
 		String loggedUser = request().username();
 		if (portal.isAdmin(loggedUser)) {
-			Search search = new SearchByName(catName);
+			Search search = new SearchByName(studentName);
 			return ok(searchResults.render(portal.getUser(loggedUser),
 					search.execute()));
 		} else {
